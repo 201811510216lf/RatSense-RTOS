@@ -1,0 +1,13 @@
+menu "RatSense gateway"
+config RATSENSE_WIFI_SSID
+    string "Wi-Fi SSID"
+    default ""
+    help
+      Set through a local sdkconfig or provisioning; never commit credentials.
+config RATSENSE_WIFI_PASSWORD
+    string "Wi-Fi password"
+    default ""
+    help
+      Set through a local sdkconfig or provisioning; never commit credentials.
+endmenu
+

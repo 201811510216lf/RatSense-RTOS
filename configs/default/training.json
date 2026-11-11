@@ -1,0 +1,22 @@
+{
+  "pressure": {
+    "adc_reference_v": 3.3,
+    "adc_full_scale": 4095,
+    "threshold_on_v": 0.25,
+    "threshold_off_v": 0.12,
+    "filter_alpha": 0.2,
+    "debounce_ms": 30,
+    "long_press_ms": 1000
+  },
+  "training": {
+    "feed_steps": 32,
+    "pellet_timeout_ms": 1500,
+    "feed_cooldown_ms": 1000,
+    "second_ir_supported": false
+  },
+  "communication": {
+    "max_payload": 512,
+    "baud_candidates": [115200, 460800, 921600]
+  }
+}
+

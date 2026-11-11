@@ -1,0 +1,23 @@
+name: host
+on:
+  push:
+  pull_request:
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -S . -B build/host -DRATSENSE_PLATFORM=HOST_SIM -DCMAKE_BUILD_TYPE=Debug
+      - name: Build
+        run: cmake --build build/host --parallel
+      - name: Test
+        run: ctest --test-dir build/host --output-on-failure
+      - name: Python syntax
+        run: python -m compileall server/app tools tests
+  optional-targets:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Enable after vendor toolchains are pinned in CI"
+

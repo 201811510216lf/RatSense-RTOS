@@ -1,0 +1,14 @@
+signal,mcu,peripheral_or_gpio,status,verification
+pressure_adc,STM32H743,ADC+TIM+DMA,TBD,CubeMX and analog range
+mlx90640_i2c,STM32H743,I2C,TBD,module address and pullups
+htu21d_i2c,STM32H743,I2C,TBD,shared bus timing
+sharp_spi,STM32H743,SPI TX DMA,TBD,P3502 timing and VCOM
+motor_phase_a,STM32H743,GPIO to ULN2003,TBD,coil order and current
+motor_phase_b,STM32H743,GPIO to ULN2003,TBD,coil order and current
+motor_phase_c,STM32H743,GPIO to ULN2003,TBD,coil order and current
+motor_phase_d,STM32H743,GPIO to ULN2003,TBD,coil order and current
+pellet_ir,STM32H743,EXTI/timer capture,TBD,active level and geometry
+sdmmc,STM32H743,SDMMC 4-bit or SPI,TBD,card socket wiring
+stm32_esp_uart,STM32H743,UART RX/TX DMA,TBD,3.3V link and selected pins
+esp_uart,ESP32-S3,UART buffered driver,TBD,module boot/USB/flash conflicts
+

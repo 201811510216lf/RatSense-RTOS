@@ -1,0 +1,15 @@
+[
+  {
+    "name": "heartbeat_payload_010203",
+    "version": 1,
+    "message_type": 3,
+    "flags": 0,
+    "sequence": 1,
+    "ack_sequence": 0,
+    "device_time_ms": 42,
+    "payload_hex": "010203",
+    "encoding": "cobs+zero-delimiter",
+    "crc": "computed_by_codec"
+  }
+]
+

@@ -1,0 +1,26 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 20, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "host-debug",
+      "displayName": "RatSense Host Debug",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/host",
+      "cacheVariables": {
+        "RATSENSE_PLATFORM": "HOST_SIM",
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "host-asan",
+      "displayName": "RatSense Host ASan/UBSan",
+      "inherits": "host-debug",
+      "binaryDir": "${sourceDir}/build/host-asan",
+      "cacheVariables": {
+        "RATSENSE_ENABLE_ASAN": "ON"
+      }
+    }
+  ]
+}
+

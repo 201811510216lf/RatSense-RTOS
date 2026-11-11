@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RatSense monitor</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+    .card { border: 1px solid #ccd3da; border-radius: .6rem; padding: 1rem; margin: .8rem 0; }
+    #events { height: 14rem; overflow: auto; background: #111827; color: #d1fae5; padding: .7rem; }
+    canvas { width: 100%; height: 200px; border: 1px solid #ccd3da; }
+  </style>
+</head>
+<body>
+  <h1>RatSense local monitor</h1>
+  <div class="card"><strong>Device</strong> <span id="device">waiting</span></div>
+  <div class="card"><h2>Predicted temperature</h2><canvas id="chart" width="900" height="200"></canvas></div>
+  <div class="card"><h2>Event stream</h2><pre id="events"></pre></div>
+  <script>
+    const deviceId = new URLSearchParams(location.search).get("device") || "host-sim-001";
+    document.querySelector("#device").textContent = deviceId;
+    const eventBox = document.querySelector("#events");
+    const canvas = document.querySelector("#chart");
+    const ctx = canvas.getContext("2d");
+    function draw(samples) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (!samples.length) return;
+      const values = samples.map(x => Number(x.predicted_temp || 0));
+      const min = Math.min(...values) - .2, max = Math.max(...values) + .2;
+      ctx.beginPath();
+      values.forEach((v, i) => {
+        const x = i * canvas.width / Math.max(1, values.length - 1);
+        const y = canvas.height - (v - min) / Math.max(.001, max - min) * canvas.height;
+        i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      });
+      ctx.strokeStyle = "#0a7"; ctx.lineWidth = 2; ctx.stroke();
+    }
+    async function refresh() {
+      const thermalResponse = await fetch("/api/thermal?device_id=" + encodeURIComponent(deviceId));
+      if (thermalResponse.ok) draw((await thermalResponse.json()).samples);
+      const eventResponse = await fetch("/api/events?device_id=" + encodeURIComponent(deviceId));
+      const eventData = await eventResponse.json();
+      eventBox.textContent = eventData.events.map(x => JSON.stringify(x)).join("\n");
+    }
+    const ws = new WebSocket("ws://" + location.host + "/ws/events");
+    ws.onmessage = e => { eventBox.textContent += "\n" + e.data; };
+    refresh(); setInterval(refresh, 3000);
+  </script>
+</body>
+</html>
+
